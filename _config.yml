@@ -2,3 +2,5 @@ title: Jekyll Bootstrap
 sass:
   sass_dir: css
   style:    compressed
+url: "https://sidrana.dev" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/jekyll-bootstrap-minimal/" # the subpath of your site, e.g. /blog
