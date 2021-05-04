@@ -1,15 +1,26 @@
-name: Build and deploy Jekyll site to GitHub Pages
+name: Build and deploy jekyll site
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
-  github-pages:
+  jekyll:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: helaili/jekyll-action@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+
+    # Use GitHub Actions' cache to shorten build times and decrease load on servers
+    - uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+    # Standard usage
+    - uses:  helaili/jekyll-action@master
+      with:
+        token: ${{ secrets.GH_TOKEN }}
+        target_branch: 'gh-pages'
+        pre_build_commands: apk --update add imagemagick nodejs
